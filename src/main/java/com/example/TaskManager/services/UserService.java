@@ -39,7 +39,6 @@ public class UserService {
 
     public void deleteUser(User user) {
         userRepository.deleteById(user.getEmail());
-//        userRepository.delete(user);
     }
 
     public User findByName(String name) {
@@ -58,10 +57,17 @@ public class UserService {
         List<User> users = userRepository.findAll();
         List<User> userUser = new ArrayList<>();
         for(User u : users) {
-            if(!u.getRoles().get(0).getName().equals("ADMIN"))  {
+            if(!isAdmin(u))  {
                 userUser.add(u);
             }
         }
         return userUser;
+    }
+
+    public boolean isAdmin(User user) {
+        if (user.getRoles().get(0).getName().equals("ADMIN")) {
+            return true;
+        }
+        return false;
     }
 }

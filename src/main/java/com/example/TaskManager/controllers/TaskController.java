@@ -1,6 +1,7 @@
 package com.example.TaskManager.controllers;
 
 import com.example.TaskManager.entities.Task;
+import com.example.TaskManager.entities.User;
 import com.example.TaskManager.services.TaskService;
 import com.example.TaskManager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,12 @@ public class TaskController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/addTask/{name}")
     public String addTask(@PathVariable String name, @RequestBody Task task) {
-        taskService.addTask(task, userService.findByName(name));
-        return "User " + name + " has a new task.";
+        User user = userService.findByName(name);
+        if(!userService.isAdmin(user)) {
+            taskService.addTask(task, user);
+            return "User " + name + " has a new task.";
+        }
+        return "Cannot add task to the admin";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
