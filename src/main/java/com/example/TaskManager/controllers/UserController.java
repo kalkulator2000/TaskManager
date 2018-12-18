@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Zarządzanie użytkownikami nie było wymagane :)
 @RestController
 public class UserController {
 

@@ -10,10 +10,15 @@ public class Task {
     @Id
     @GeneratedValue
     private Long id;
+
+    // A gdybyśmy chcieli posortować zadania po dacie dodania? Albo zwrócić zadania z zakresu dat od-do?
+    // Jest dużo typów w Javie, które służą do reprezentacji dat, trzeba użyć jednego z nich
     @NotEmpty
     private String date;
     @NotEmpty
     private String name;
+
+    // Jeśli to jest data to czyt. komentarz wyżej
     @NotEmpty
     private String deadline;
     @NotEmpty
@@ -89,10 +94,12 @@ public class Task {
         this.user = user;
     }
 
+    // Takie metody nie powinny znajdować się w encji bazodanowej
     public String showTask() {
         return "Task " + id + ", " + date+ ", " + name + ", deadline: " + deadline + ", user: " + user.getName();
     }
 
+    // Takie metody nie powinny znajdować się w encji bazodanowej
     public String showDetailedTask() {
         String s = showTask();
         return s + "\n\tDescription: " + description;

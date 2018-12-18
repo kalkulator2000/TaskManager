@@ -9,6 +9,8 @@ public class Role {
     @Id
     @Column(unique = true)
     private String name;
+
+    // Nie jest to jakiś błąd, ale dwustronne mapowanie nie jest potrzebne przy naszych założeniach (nie będziemy nigdy pobierać uzytkowników dla podanej roli)
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
