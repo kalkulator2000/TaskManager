@@ -1,12 +1,16 @@
 package com.example.TaskManager.services;
 
+import com.example.TaskManager.entities.CreateTaskRequest;
 import com.example.TaskManager.entities.Task;
 import com.example.TaskManager.entities.User;
 import com.example.TaskManager.repositories.TaskRepository;
+import com.example.TaskManager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -14,20 +18,51 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public void addTask(Task task, User user) {
-        task.setUser(user);
-        taskRepository.save(task);
+    @Autowired
+    private UserRepository userRepository;
+
+    public boolean addTask(CreateTaskRequest taskRequest) {
+        Task task = taskRequest.getTask();
+        Optional<User> user = userRepository.findByName(taskRequest.getUsername());
+
+        if(user.isPresent()) {
+            task.setUser(user.get());
+            taskRepository.save(task);
+            return true;
+        }
+        return false;
     }
 
-    public void updateTask(Long id, Task newTask) {
-        Task oldTask = taskRepository.findById(id).get();
-        User user = oldTask.getUser();
-        taskRepository.delete(oldTask);
-        addTask(newTask,user);
+    public boolean updateTask(Long id, CreateTaskRequest taskRequest) {
+        Optional<Task> oldtask = taskRepository.findById(id);
+        if(oldtask.isPresent()) {
+            Task oldTask = oldtask.get();
+            Task newTask = taskRequest.getTask();
+            Optional<User> userr = userRepository.findByName(taskRequest.getUsername());
+            if(userr.isPresent()) {
+                User user = userr.get();
+                oldTask.setStartingDate(LocalDate.now());
+                oldTask.setName(newTask.getName());
+                oldTask.setDeadline(newTask.getDeadline());
+                oldTask.setDescription(newTask.getDescription());
+                oldTask.setUser(user);
+                taskRepository.save(oldTask);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
-    public void deleteTask(Long id) {
-        taskRepository.deleteById(id);
+    public boolean deleteTask(Long id) {
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isPresent()){
+            taskRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     public List<Task> findAll() {
@@ -36,5 +71,9 @@ public class TaskService {
 
     public List<Task> findByUser(User user) {
         return taskRepository.findByUser(user);
+    }
+
+    public Optional<Task> findById(Long id) {
+        return taskRepository.findById(id);
     }
 }

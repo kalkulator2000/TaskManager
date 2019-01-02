@@ -1,41 +1,49 @@
 package com.example.TaskManager.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 
 @Entity
+@JsonIgnoreProperties("hibernateLazyInitializer")
 public class Task {
 
     @Id
     @GeneratedValue
     private Long id;
-    @NotEmpty
-    private String date;
+    private LocalDate startingDate;
     @NotEmpty
     private String name;
-    @NotEmpty
-    private String deadline;
-    @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate deadline;
     @Column(length=1000)
     private String description;
+
     @ManyToOne
     @JoinColumn(name="USER_EMAIL")
+    @JsonBackReference
     private User user;
 
+
     public Task() {
+        this.startingDate = LocalDate.now();
     }
 
-    public Task(@NotEmpty String date, @NotEmpty String name, @NotEmpty String deadline, @NotEmpty String description, User user) {
-        this.date = date;
+    public Task(@NotEmpty String name, LocalDate deadline, String description, User user) {
+        this.startingDate = LocalDate.now();
         this.name = name;
         this.deadline = deadline;
         this.description = description;
         this.user = user;
     }
 
-    public Task(@NotEmpty String date, @NotEmpty String name, @NotEmpty String deadline, @NotEmpty String description) {
-        this.date = date;
+    public Task(@NotEmpty String name, LocalDate deadline, String description) {
+        this.startingDate = LocalDate.now();
         this.name = name;
         this.deadline = deadline;
         this.description = description;
@@ -49,12 +57,12 @@ public class Task {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public LocalDate getStartingDate() {
+        return startingDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartingDate(LocalDate date) {
+        this.startingDate = date;
     }
 
     public String getName() {
@@ -65,11 +73,11 @@ public class Task {
         this.name = name;
     }
 
-    public String getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -87,14 +95,5 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String showTask() {
-        return "Task " + id + ", " + date+ ", " + name + ", deadline: " + deadline + ", user: " + user.getName();
-    }
-
-    public String showDetailedTask() {
-        String s = showTask();
-        return s + "\n\tDescription: " + description;
     }
 }

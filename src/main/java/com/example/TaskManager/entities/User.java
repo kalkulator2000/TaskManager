@@ -1,5 +1,8 @@
 package com.example.TaskManager.entities;
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -18,13 +21,15 @@ public class User {
     private String name;
     @Size(min = 4)
     private String password;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name="USER_ROLES", joinColumns = {
             @JoinColumn(name = "USER_EMAIL", referencedColumnName = "email")}, inverseJoinColumns = {
             @JoinColumn(name = "ROLE_NAME", referencedColumnName = "name")
     })
     private List<Role> roles;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Task> tasks;
 
     public User() {
@@ -74,10 +79,5 @@ public class User {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
-    }
-
-    @Override
-    public String toString() {
-        return "Name: " + name + ", email: " + email;
     }
 }

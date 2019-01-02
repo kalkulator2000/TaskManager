@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -41,33 +42,15 @@ public class UserService {
         userRepository.deleteById(user.getEmail());
     }
 
-    public User findByName(String name) {
+    public Optional<User> findByName(String name) {
         return userRepository.findByName(name);
     }
 
-    public User findOne(String email) {
+    public Optional<User> findOne(String email) {
         return userRepository.findByEmail(email);
     }
 
     public List<User> findAll() {
         return userRepository.findAll();
-    }
-
-    public List<User> findByRoleUser() {
-        List<User> users = userRepository.findAll();
-        List<User> userUser = new ArrayList<>();
-        for(User u : users) {
-            if(!isAdmin(u))  {
-                userUser.add(u);
-            }
-        }
-        return userUser;
-    }
-
-    public boolean isAdmin(User user) {
-        if (user.getRoles().get(0).getName().equals("ADMIN")) {
-            return true;
-        }
-        return false;
     }
 }
