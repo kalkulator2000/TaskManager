@@ -3,6 +3,8 @@ package com.example.TaskManager.entities;
 import javax.persistence.*;
 import java.util.List;
 
+// Dla encji bazodanowych bezpiecznie jest tworzyć metody "toString()", "equals()" i "hashCode()", jeśli używasz IDE to on wygeneruje Ci standardowe implementacje za Ciebie
+
 @Entity
 public class Role {
 

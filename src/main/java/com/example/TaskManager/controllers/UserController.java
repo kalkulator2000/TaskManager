@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+// Brakuje fragmentu URI dla całego kontrolera
 @RestController
 public class UserController {
 
     @Autowired
     UserService userService;
 
+    // Czy jest potrzebna osobna usługa do tworzenia administratora, a osobna dla zwykłego użytkownika?
+    // Metody kontrolerów REST powinny zwracać typ ResponseEntity<?>
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/addUser")
     public String addUser(@RequestBody User user) {
@@ -33,6 +36,7 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/deleteUser/{name}")
     public ResponseEntity<String> deleteUser(@PathVariable String name) {
+        // Skoro masz wartwę serwisu z metodami dla zarządzania użytkownikiem, to warto przenieść logikę do tamtej warstwy - tam sprawdzaj, czy użytkownik istnieje
         Optional<User> user = userService.findByName(name);
         if(user.isPresent()) {
             userService.deleteUser(user.get());

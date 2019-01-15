@@ -1,5 +1,7 @@
 package com.example.TaskManager.controllers;
 
+// Ogólna uwaga do nazewnictwa - nazwy pakietów i klas powinny przedstawiać liczbę pojedynczą, nazwy pakietów powinny zawierać tylko małe litery
+
 import com.example.TaskManager.entities.CreateTaskRequest;
 import com.example.TaskManager.entities.Task;
 import com.example.TaskManager.entities.User;
@@ -24,6 +26,8 @@ public class TaskController {
     @Autowired
     private UserService userService;
 
+    // Ogólna uwaga do URI usług REST w tej klasie - wg konwencji nie powinny one zawierać słów typu "add", "create", "update", "modify", "delete", itp.
+    // Metoda HTTP, która jest określana dla każdego endpointu mówi nam, jakiego rodzaju operację chcemy wykonać.
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/add")
@@ -62,6 +66,7 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    // URI tej usługi nie powinien zawierać nazwy użytkownika -> możesz ją wyciągnąć z kontekstu Spring Security, którego używasz do zabezpieczenia endpointów
     @PreAuthorize("(#name == authentication.principal.username) or hasAnyAuthority('ADMIN')")
     @GetMapping("/list/{name}")
     public ResponseEntity<List<Task>> getUserTasks(@PathVariable String name) {

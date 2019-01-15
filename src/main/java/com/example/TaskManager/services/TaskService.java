@@ -22,6 +22,9 @@ public class TaskService {
     private UserRepository userRepository;
 
     public boolean addTask(CreateTaskRequest taskRequest) {
+
+        // Zamiast zwracać wartość typu boolean, serwis powiniec rzucić wyjątek jeśli coś jest nie tak, a kontroler powinien wyjątek odpowiednio obsłużyć
+        // Dotyczy wszystkich metod tego serwisu
         Task task = taskRequest.getTask();
         Optional<User> user = userRepository.findByName(taskRequest.getUsername());
 

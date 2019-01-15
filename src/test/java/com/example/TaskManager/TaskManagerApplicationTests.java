@@ -16,6 +16,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+// Ta klasa powoduje błąd kompilacji, przez co nie da się zbudować projektu z konsoli (mvn clean package)
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TaskManagerApplicationTests {

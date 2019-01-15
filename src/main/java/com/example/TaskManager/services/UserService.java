@@ -19,6 +19,7 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder encoder;
 
+    // Idąc za komentarzem z klasy 'UserController' - te dwie metody serwisu wyglądają identycznie, różniąc się tylko nazwą roli przypisywanej do użytkownika.
     public void createUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         Role userRole = new Role("USER");
@@ -46,10 +47,12 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
+    // Nie zostawiaj nieużywanego kodu
     public Optional<User> findOne(String email) {
         return userRepository.findByEmail(email);
     }
 
+    // Jak wyżej
     public List<User> findAll() {
         return userRepository.findAll();
     }

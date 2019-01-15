@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+// Używanie nazw "Custom..." nie jest dobrą praktyką
+// Ta klasa mogłaby się znajdować w pakiecie "security"
 public class CustomUserDetails implements UserDetails {
 
     private User user;
