@@ -1,7 +1,8 @@
-package com.example.TaskManager.services;
+package com.example.TaskManager.service;
 
-import com.example.TaskManager.entities.User;
-import com.example.TaskManager.repositories.UserRepository;
+import com.example.TaskManager.entity.User;
+import com.example.TaskManager.repository.UserRepository;
+import com.example.TaskManager.security.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImp implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -21,9 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findByName(name);
 
         if(user != null) {
-            CustomUserDetails customUserDetails = new CustomUserDetails();
-            customUserDetails.setUser(user.get());
-            return customUserDetails;
+            UserDetailsImp userDetailsImp = new UserDetailsImp();
+            userDetailsImp.setUser(user.get());
+            return userDetailsImp;
         } else {
             throw new UsernameNotFoundException("User " + name + " not found.");
         }

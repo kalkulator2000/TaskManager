@@ -1,7 +1,7 @@
-package com.example.TaskManager.services;
+package com.example.TaskManager.security;
 
-import com.example.TaskManager.entities.Role;
-import com.example.TaskManager.entities.User;
+import com.example.TaskManager.entity.Role;
+import com.example.TaskManager.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CustomUserDetails implements UserDetails {
+public class UserDetailsImp implements UserDetails {
 
     private User user;
 

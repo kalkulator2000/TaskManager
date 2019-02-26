@@ -1,18 +1,11 @@
-package com.example.TaskManager.entities;
+package com.example.TaskManager.controller.task_request;
+
+import com.example.TaskManager.entity.Task;
 
 public class CreateTaskRequest {
 
     private String username;
     private Task task;
-
-    public CreateTaskRequest() {
-        super();
-    }
-
-    public CreateTaskRequest(String username, Task task) {
-        this.username = username;
-        this.task = task;
-    }
 
     public String getUsername() {
         return username;

@@ -1,4 +1,4 @@
-package com.example.TaskManager.entities;
+package com.example.TaskManager.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties("hibernateLazyInitializer")
@@ -95,5 +96,31 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", startingDate=" + startingDate +
+                ", name='" + name + '\'' +
+                ", deadline=" + deadline +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task task = (Task) o;
+        return Objects.equals(getStartingDate(), task.getStartingDate());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getStartingDate());
     }
 }

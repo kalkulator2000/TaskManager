@@ -1,6 +1,6 @@
-package com.example.TaskManager.repositories;
+package com.example.TaskManager.repository;
 
-import com.example.TaskManager.entities.User;
+import com.example.TaskManager.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
